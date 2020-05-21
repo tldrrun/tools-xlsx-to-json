@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/360EntSecGroup-Skylar/excelize"
+	"github.com/360EntSecGroup-Skylar/excelize/v2"
 	"github.com/urfave/cli/v2"
 )
 
@@ -34,8 +34,9 @@ func convertXLSXToJSON(c *cli.Context) error {
 		log.Fatal(err)
 	}
 
-	rows := f.GetRows(sheetName)
+	rows, err := f.GetRows(sheetName)
 
+	//currently doing for all rows, will handle this in future to only do recent or latest
 	for _, row := range rows {
 		var tool ToolData
 		tool.Name = row[1]
@@ -48,7 +49,8 @@ func convertXLSXToJSON(c *cli.Context) error {
 		tool.URL = row[8]
 
 		// currently hardcoded the tools folder
-		outputJSONFilePath := "tools/" + safeCleanName(row[1])
+		// create tools directory before (will handle this in future)
+		outputJSONFilePath := "tools/" + safeCleanName(row[1]) + ".json"
 
 		jsonData, err := json.Marshal(tool)
 		if err != nil {
