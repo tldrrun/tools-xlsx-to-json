@@ -52,7 +52,7 @@ func convertXLSXToJSON(c *cli.Context) error {
 		// create tools directory before (will handle this in future)
 		outputJSONFilePath := "tools/" + safeCleanName(row[1]) + ".json"
 
-		jsonData, err := json.Marshal(tool)
+		jsonData, err := json.MarshalIndent(tool, "", "    ")
 		if err != nil {
 			log.Println(err)
 		}

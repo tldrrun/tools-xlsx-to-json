@@ -34,7 +34,7 @@ func checkRequired(action cli.ActionFunc, args ...string) cli.ActionFunc {
 func stringTrimSplit(s string) []string {
 	output := strings.Split(s, ",")
 	for i := range output {
-		output[i] = strings.TrimSpace(output[i])
+		output[i] = strings.ToLower(strings.Replace(strings.TrimSpace(output[i]), " ", "-", -1))
 	}
 	return output
 }
